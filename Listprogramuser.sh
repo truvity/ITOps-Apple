@@ -16,7 +16,7 @@ fi
 
 
 
-
+rm -rf /tmp/ITOps-Apple-serenko
 
 
 set -e
