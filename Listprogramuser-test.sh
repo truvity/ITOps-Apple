@@ -20,4 +20,4 @@ fi
 
 
 set -e
-rm -rf /tmp/ITOps-Apple-master
+rm -rf /tmp/ITOps-Apple-test
