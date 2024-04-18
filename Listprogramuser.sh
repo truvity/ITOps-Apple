@@ -8,10 +8,10 @@ export Company="Truvity"
 Group="$1"
 
 #Set program
-Grammarly="On"
-Grammarly_Group=("All")
-1Password="On"
-1Password_Group=("All")
+Grammarly="On";
+Grammarly_Group=("All");
+_1Password="On";
+_1Password_Group=("All");
 
 
 #check brew
@@ -31,8 +31,8 @@ done
 fi
 
 #check 1password
-if [ "$1Password" == "On" ]; then
-	for val in "${1Password_Group[@]}"; do
+if [ "$_1Password" == "On" ]; then
+	for val in "${_1Password_Group[@]}"; do
     if [ "$val" == "$Group" ]; then
         /bin/sh 1Password/1Password.sh
 
