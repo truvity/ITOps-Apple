@@ -16,16 +16,19 @@ app_path="/Applications/Grammarly Desktop.app/Contents/Info.plist"
 # Check install
 if [ ! -f "$app_path" ]; then
 	cd /tmp/
-	# Download grammarly
-	curl -O https://download-mac.grammarly.com/Grammarly.dmg > Grammarly.dmg
+	#curl -O https://download-mac.grammarly.com/Grammarly.dmg > Grammarly.dmg
 	#if [ $? -gt 0 ]; then text_slack="Error downloading Grammarly in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
-	# Install Grammarly
-	hdiutil attach Grammarly.dmg
-	open /Volumes/Grammarly/Grammarly\ Installer.app
-	sleep 20
-	hdiutil detach /Volumes/Grammarly
+	#hdiutil attach Grammarly.dmg
+	#open /Volumes/Grammarly/Grammarly\ Installer.app
+	#sleep 20
+	#hdiutil detach /Volumes/Grammarly
 	# Remove temp files
-	rm /tmp/Grammarly.dmg
+	#rm /tmp/Grammarly.dmg
+	
+	#Install Grammarly
+	brew install --cask grammarly-desktop
+	if [ $? -gt 0 ]; then text_slack="Error of brew installing Grammarly in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
+	
 	# Check install
 	if [ -f "$app_path" ]; then
 		text_slack="Grammarly is installed in $Company $(hostname)." 
