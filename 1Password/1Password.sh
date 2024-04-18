@@ -11,28 +11,26 @@ function Slack_notification() {
   curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 }
 
-app_path="/Applications/Grammarly Desktop.app/Contents/Info.plist"
+app_path="/Applications/1Password.app/Contents/Info.plist"
 
 # Check install
 if [ ! -f "$app_path" ]; then
 	cd /tmp/
-	# Download grammarly
-	curl -O https://download-mac.grammarly.com/Grammarly.dmg > Grammarly.dmg
-	#if [ $? -gt 0 ]; then text_slack="Error downloading Grammarly in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
-	# Install Grammarly
-	hdiutil attach Grammarly.dmg
-	open /Volumes/Grammarly/Grammarly\ Installer.app
+	# Download 1Password
+	curl -sL https://downloads.1password.com/mac/1Password.zip | tar xz
+	#if [ $? -gt 0 ]; then text_slack="Error downloading 1Password in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
+	# Install 1Password
+	open /Volumes/1Password/1Password\ Installer.app
 	sleep 20
-	hdiutil detach /Volumes/Grammarly
 	# Remove temp files
-	rm /tmp/Grammarly.dmg
+	rm /tmp/1Password.dmg
 	# Check install
 	if [ -f "$app_path" ]; then
-		text_slack="Grammarly is installed in $Company $(hostname)." 
+		text_slack="1Password is installed in $Company $(hostname)." 
 		color='good'
 		Slack_notification		
     else
-		text_slack="Error installing Grammarly in $Company $(hostname)." 
+		text_slack="Error installing 1Password in $Company $(hostname)." 
 		color='danger'
 		Slack_notification	
 	fi

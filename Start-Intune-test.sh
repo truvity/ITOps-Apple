@@ -4,4 +4,6 @@ cd /tmp/
 curl -sL https://github.com/truvity/ITOps-Apple/archive/refs/heads/test.zip |  tar xz
 chmod -R a+x  ITOps-Apple-test/
 cd ITOps-Apple-test
-/bin/sh Listprogramuser-test.sh
+/bin/sh Listprogramuser.sh
+sleep 20
+rm -rf /tmp/ITOps-Apple-test
