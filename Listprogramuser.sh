@@ -16,7 +16,7 @@ _1Password_Group=("All");
 
 #check brew
 if ! command -v brew &>/dev/null; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	if [ $? -gt 0 ]; then text_slack="Error install Brew in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
 fi
 
