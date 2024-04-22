@@ -1,6 +1,19 @@
 #!/bin/sh
 set +e
 
+
+function Slack_notification() {
+# Send notification messages to a Slack channel by using Slack webhook
+# 
+# input parameters:
+#   color = good; warning; danger
+#   $text_slack - main text
+######
+  local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
+  curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
+}
+
+
 #Set name Company
 export Company="Truvity"
 
@@ -16,8 +29,7 @@ _1Password_Group=("All");
 
 #check brew
 if ! command -v brew &>/dev/null; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	if [ $? -gt 0 ]; then text_slack="Error install Brew in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
+	text_slack="Brew didn't install in $Company $(hostname)."; color='danger'; Slack_notification; exit 1;
 fi
 
 #check Grammarly
