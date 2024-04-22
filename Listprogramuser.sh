@@ -29,7 +29,10 @@ _1Password_Group=("All");
 
 #check brew
 if ! command -v brew &>/dev/null; then
+    source /etc/zprofile
+	if ! command -v brew &>/dev/null; then
 	text_slack="Brew didn't install in $Company $(hostname)."; color='danger'; Slack_notification; exit 1;
+	fi
 fi
 
 #check Grammarly
