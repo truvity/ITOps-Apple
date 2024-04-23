@@ -12,41 +12,6 @@ function Slack_notification() {
 }
 
 
-#Check jq
-cd /tmp/
-if ! command -v jq >/dev/null 2>&1; then
-    ARCH=$(uname -m)
-	if [[ "$ARCH" == "x86_64" ]]; then
-    # Check Intel
-		if sysctl -n sysctl.proc_translated &> /dev/null; then
-			# Apple Silicon
-			URL="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-arm64"
-		else
-			# Native Intel
-			URL="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64"
-		fi
-	elif [[ "$ARCH" == "arm64" ]]; then
-		#Apple Silicon
-		URL="https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-arm64"
-	fi
-    
-	curl -Lo jq "$URL"
-	if [ $? -gt 0 ]; then text_slack="Error install jq in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
-	chmod +x jq
-	mv jq /usr/local/bin/
-	Jq_file="/usr/local/bin/jq"
-	# Check install
-	if [ -f "$Jq_file" ]; then
-		text_slack="Jq is installed in $Company $(hostname)." 
-		color='good'
-		Slack_notification		
-    else
-		text_slack="Error installing jq in $Company $(hostname)." 
-		color='danger'
-		Slack_notification	
-	fi
-fi
-
 
 #Check Homebrew
 cd /tmp/
@@ -55,7 +20,9 @@ if ! command -v brew >/dev/null 2>&1; then
 	if [ -f "$Brew_file" ]; then
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
 	else
-		curl -L -o Homebrew-latest.pkg "$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest | jq -r '.assets[0].browser_download_url')"
+	    json=$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest)
+		download_url=$(echo "$json" | grep -o '"browser_download_url": "[^"]*"' | head -1 | cut -d '"' -f 4)
+		curl -L -o Homebrew-latest.pkg "$download_url"
 		installer -pkg Homebrew-latest.pkg -target /
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
 	fi
