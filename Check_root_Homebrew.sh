@@ -30,11 +30,11 @@ if ! command -v brew >/dev/null 2>&1; then
 	fi
 	# Check install
 	if [ -f "$Brew_file" ]; then
-		text_slack="Brew is installed in $Company $(hostname)." 
+		text_slack="Brew is installed in $Company $(hostname) $(whoami)." 
 		color='good'
 		Slack_notification		
     else
-		text_slack="Error installing Brew in $Company $(hostname)." 
+		text_slack="Error installing Brew in $Company $(hostname) $(whoami)." 
 		color='danger'
 		Slack_notification	
 	fi
