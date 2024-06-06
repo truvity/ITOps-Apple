@@ -14,7 +14,7 @@ function Slack_notification() {
 
 
 #Check Homebrew
-
+source /etc/zprofile
 cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
@@ -49,7 +49,5 @@ if ! command -v brew >/dev/null 2>&1; then
 		color='danger'
 		Slack_notification	
 	fi
-	
-	source /etc/zprofile
 
 fi
