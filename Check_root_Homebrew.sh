@@ -28,6 +28,15 @@ if ! command -v brew >/dev/null 2>&1; then
 		chmod -R 775 /opt/homebrew
                 export message="payload={\"attachments\":[{\"text\":\"test-serenko option 1\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
+  		if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
+			text_slack="Brew is installed in $Company $(hostname) $(whoami)." 
+			color='good'
+			Slack_notification		
+    		else
+			text_slack="Error installing Brew in $Company $(hostname) $(whoami)." 
+			color='danger'
+			Slack_notification	
+		fi
 	else
 	    json=$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest)
 		download_url=$(echo "$json" | grep -o '"browser_download_url": "[^"]*"' | head -1 | cut -d '"' -f 4)
