@@ -38,6 +38,7 @@ if ! command -v brew >/dev/null 2>&1; then
 		chmod -R 775 /opt/homebrew
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
 		source /etc/zprofile
+  		eval "$(/opt/homebrew/bin/brew shellenv)"
   		export message="payload={\"attachments\":[{\"text\":\"test-serenko option 2\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
