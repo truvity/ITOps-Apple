@@ -29,6 +29,7 @@ if ! command -v brew >/dev/null 2>&1; then
 	else
 	    json=$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest)
 		download_url=$(echo "$json" | grep -o '"browser_download_url": "[^"]*"' | head -1 | cut -d '"' -f 4)
+  		rm Homebrew-latest.pkg
 		curl -L -o Homebrew-latest.pkg "$download_url"
 		installer -pkg Homebrew-latest.pkg -target /
   		chown -R :admin /opt/homebrew
