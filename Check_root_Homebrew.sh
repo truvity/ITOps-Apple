@@ -15,6 +15,7 @@ function Slack_notification() {
 
 #Check Homebrew
 source /etc/zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
