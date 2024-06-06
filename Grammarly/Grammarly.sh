@@ -17,7 +17,7 @@ app_path="/Applications/Grammarly Desktop.app/Contents/Info.plist"
 if [ ! -f "$app_path" ]; then
 	cd /tmp/
 	#Install Grammarly
-	brew install --cask grammarly-desktop
+	brew install --cask grammarly-desktop --force
 	if [ $? -gt 0 ]; then text_slack="Error of brew installing Grammarly in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
 	
 	# Check install
