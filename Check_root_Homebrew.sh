@@ -23,6 +23,7 @@ if ! command -v brew >/dev/null 2>&1; then
 	if [ -f "$Brew_file" ]; then
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
   		source /etc/zprofile
+    		eval "$(/opt/homebrew/bin/brew shellenv)"
     		chown -R :admin /opt/homebrew
 		chmod -R 775 /opt/homebrew
                 export message="payload={\"attachments\":[{\"text\":\"test-serenko option 1\",\"color\":\"$color\"}]}"
