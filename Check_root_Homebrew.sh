@@ -12,10 +12,9 @@ function Slack_notification() {
 }
 
 
-
 #Check Homebrew
-source /etc/zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+export source /etc/zprofile
 cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
@@ -28,15 +27,6 @@ if ! command -v brew >/dev/null 2>&1; then
 		chmod -R 775 /opt/homebrew
                 export message="payload={\"attachments\":[{\"text\":\"test-serenko option 1\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
-  		if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
-			text_slack="Brew is installed in $Company $(hostname) $(whoami)." 
-			color='good'
-			Slack_notification		
-    		else
-			text_slack="Error installing Brew in $Company $(hostname) $(whoami)." 
-			color='danger'
-			Slack_notification	
-		fi
 	else
 	    json=$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest)
 		download_url=$(echo "$json" | grep -o '"browser_download_url": "[^"]*"' | head -1 | cut -d '"' -f 4)
@@ -46,12 +36,12 @@ if ! command -v brew >/dev/null 2>&1; then
   		chown -R :admin /opt/homebrew
 		chmod -R 775 /opt/homebrew
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
-		source /etc/zprofile
   		eval "$(/opt/homebrew/bin/brew shellenv)"
   		export message="payload={\"attachments\":[{\"text\":\"test-serenko option 2\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
 	# Check install
+ 	export source /etc/zprofile
 	if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
 		text_slack="Brew is installed in $Company $(hostname) $(whoami)." 
 		color='good'
