@@ -14,7 +14,6 @@ function Slack_notification() {
 
 #Check Homebrew
 
-export source /etc/zprofile
 cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
@@ -41,7 +40,7 @@ if ! command -v brew >/dev/null 2>&1; then
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
 	# Check install
- 	export source /etc/zprofile
+ 	eval "$(/opt/homebrew/bin/brew shellenv)"
 	if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
 		text_slack="Brew is installed in $Company $(hostname) $(whoami)." 
 		color='good'
