@@ -20,6 +20,8 @@ if ! command -v brew >/dev/null 2>&1; then
 	if [ -f "$Brew_file" ]; then
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
   		source /etc/zprofile
+                export message="payload={\"attachments\":[{\"text\":\"test-serenko option 1\",\"color\":\"$color\"}]}"
+		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	else
 	    json=$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest)
 		download_url=$(echo "$json" | grep -o '"browser_download_url": "[^"]*"' | head -1 | cut -d '"' -f 4)
@@ -27,6 +29,8 @@ if ! command -v brew >/dev/null 2>&1; then
 		installer -pkg Homebrew-latest.pkg -target /
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
 		source /etc/zprofile
+  		export message="payload={\"attachments\":[{\"text\":\"test-serenko option 2\",\"color\":\"$color\"}]}"
+		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
 	# Check install
 	if [ -f "$Brew_file" ]; then
