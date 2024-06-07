@@ -16,6 +16,8 @@ function Slack_notification() {
 source /etc/zprofile
 cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
+sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/\*/\* \*, /usr/sbin/installer -pkg /opt/homebrew/\*, /bin/launchctl list \*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/*/* *, /usr/sbin/installer -pkg /opt/homebrew/*, /bin/launchctl list *' | sudo tee -a /etc/sudoers > /dev/null
+
 
 if ! command -v brew >/dev/null 2>&1; then
 	if [ -f "$Brew_file" ]; then
