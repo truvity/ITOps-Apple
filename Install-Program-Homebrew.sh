@@ -44,7 +44,7 @@ install_programs_cli() {
     for program_name in "${programs_cli[@]}"; do
         if ! brew list "$program_name" &>/dev/null; then
             echo "Installing $program_name..."
-            brew install --cask "$program_name" --force
+            brew install "$program_name" --force
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
