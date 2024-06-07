@@ -1,4 +1,5 @@
 #!/bin/zsh
+{
 set -x
 
 # Function Slack notification
@@ -109,3 +110,4 @@ fi
 
 
 set +x
+}  > /tmp/detailed_log.txt 2>&1
