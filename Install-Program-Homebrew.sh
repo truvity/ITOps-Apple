@@ -14,12 +14,35 @@ function Slack_notification() {
 }
 
 
-# Function to install programs via Homebrew
-install_programs() {
-    local programs=("$@")
+# Function to install gui-programs via Homebrew
+install_programs_gui() {
+    local programs-gui=("$@")
 
-    for program_name in "${programs[@]}"; do
+    for program_name in "${programs-gui[@]}"; do
         if ! brew list --cask "$program_name" &>/dev/null; then
+            echo "Installing $program_name..."
+            brew install --cask "$program_name" --force
+				if [ $? -gt 0 ]; then 
+					text_slack="Error of brew installing $program_name in $Company $(hostname)."
+					color='danger'
+					Slack_notification
+				else
+					text_slack="Successfully installed $program_name in $Company $(hostname)."
+					color='good'
+					Slack_notification
+				fi
+        else
+            echo "$program_name is already installed."
+        fi
+    done
+}
+
+# Function to install cli-programs via Homebrew
+install_programs_cli() {
+    local programs-cli=("$@")
+
+    for program_name in "${programs-cli[@]}"; do
+        if ! brew list "$program_name" &>/dev/null; then
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
 				if [ $? -gt 0 ]; then 
@@ -57,14 +80,18 @@ if [ "$Company" = "Truvity" ]; then
 
 	if [ "$Group" = "All" ]; then
 		# List of programs to install via Homebrew
-		programs=(
+		programs-gui=(
 			google-chrome
 			slack
 			1password
+			telegram-desktop
+			zoom
+			google-drive
+			anydesk
 		# Add other programs here
 		)
-		#Install Programs
-		install_programs "${programs[@]}"
+		#Install Programs gui
+		install_programs_gui "${programs-gui[@]}"
 	fi	
 	
 fi
