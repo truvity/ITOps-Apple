@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
@@ -16,17 +16,8 @@ app_path="/Applications/Grammarly Desktop.app/Contents/Info.plist"
 # Check install
 if [ ! -f "$app_path" ]; then
 	cd /tmp/
-	#curl -O https://download-mac.grammarly.com/Grammarly.dmg > Grammarly.dmg
-	#if [ $? -gt 0 ]; then text_slack="Error downloading Grammarly in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
-	#hdiutil attach Grammarly.dmg
-	#open /Volumes/Grammarly/Grammarly\ Installer.app
-	#sleep 20
-	#hdiutil detach /Volumes/Grammarly
-	# Remove temp files
-	#rm /tmp/Grammarly.dmg
-	
 	#Install Grammarly
-	brew install --cask grammarly-desktop
+	brew install --cask grammarly-desktop --force
 	if [ $? -gt 0 ]; then text_slack="Error of brew installing Grammarly in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
 	
 	# Check install

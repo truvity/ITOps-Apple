@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
@@ -17,7 +17,7 @@ app_path="/Applications/1Password.app/Contents/Info.plist"
 if [ ! -f "$app_path" ]; then
 	cd /tmp/
 	# Install 1Password
-	brew install --cask 1password
+	brew install --cask 1password --force
 	if [ $? -gt 0 ]; then text_slack="Error of brew installing 1Password in $Company $(hostname)."; color='danger'; Slack_notification; exit 1; fi;
 	# Check install
 	if [ -f "$app_path" ]; then
