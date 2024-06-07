@@ -1,5 +1,5 @@
 #!/bin/zsh
-set +e
+set -x
 
 # Function Slack notification
 function Slack_notification() {
@@ -72,4 +72,4 @@ fi
 
 
 
-set -e
+set +x
