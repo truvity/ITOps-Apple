@@ -79,8 +79,9 @@ fi
 if [ "$Company" = "Truvity" ]; then
 
 	if [ "$Group" = "All" ]; then
-		# List of programs to install via Homebrew
-		programs-gui=(
+	
+		# List of programs-gui to install via Homebrew
+		programs_gui=(
 			google-chrome
 			slack
 			1password
@@ -91,7 +92,15 @@ if [ "$Company" = "Truvity" ]; then
 		# Add other programs here
 		)
 		#Install Programs gui
-		install_programs_gui "${programs-gui[@]}"
+		install_programs_gui "${programs_gui[@]}"
+		
+		# List of programs-cli to install via Homebrew
+		programs_cli=(
+			speedtest-cli
+		# Add other programs here
+		)
+		#Install Programs cli
+		install_programs_cli "${programs_cli[@]}"
 	fi	
 	
 fi
