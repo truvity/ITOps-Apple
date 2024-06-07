@@ -16,9 +16,9 @@ function Slack_notification() {
 
 # Function to install gui-programs via Homebrew
 install_programs_gui() {
-    local programs-gui=("$@")
+    local programs_gui=("$@")
 
-    for program_name in "${programs-gui[@]}"; do
+    for program_name in "${programs_gui[@]}"; do
         if ! brew list --cask "$program_name" &>/dev/null; then
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
@@ -39,9 +39,9 @@ install_programs_gui() {
 
 # Function to install cli-programs via Homebrew
 install_programs_cli() {
-    local programs-cli=("$@")
+    local programs_cli=("$@")
 
-    for program_name in "${programs-cli[@]}"; do
+    for program_name in "${programs_cli[@]}"; do
         if ! brew list "$program_name" &>/dev/null; then
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
