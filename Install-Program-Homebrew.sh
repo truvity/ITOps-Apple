@@ -2,6 +2,7 @@
 {
 set -x
 
+source /etc/zprofile
 # Function Slack notification
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
