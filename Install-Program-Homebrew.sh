@@ -22,6 +22,7 @@ install_programs_gui() {
 
     for program_name in "${programs_gui[@]}"; do
         if ! brew list --cask "$program_name" &>/dev/null; then
+			cd /tmp/
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
 				if [ $? -gt 0 ]; then 
@@ -45,6 +46,7 @@ install_programs_cli() {
 
     for program_name in "${programs_cli[@]}"; do
         if ! brew list "$program_name" &>/dev/null; then
+			cd /tmp/
             echo "Installing $program_name..."
             brew install "$program_name" --force
 				if [ $? -gt 0 ]; then 
