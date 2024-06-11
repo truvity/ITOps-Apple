@@ -11,7 +11,6 @@ function Slack_notification() {
   curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
   sleep 1
   curl -F file=@/tmp/detail_log.txt \
-       -F "initial_comment=${text_slack}" \
        -F channels=${channel} \
        -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
        https://slack.com/api/files.upload
