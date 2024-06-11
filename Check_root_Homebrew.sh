@@ -26,9 +26,9 @@ Brew_file="/opt/homebrew/bin/brew"
 sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/\*/\* \*, /usr/sbin/installer -pkg /opt/homebrew/\*, /bin/launchctl list \*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/*/* *, /usr/sbin/installer -pkg /opt/homebrew/*, /bin/launchctl list *' | sudo tee -a /etc/sudoers > /dev/null
 
 #check ownership and permissions
-perm=$(stat -c "%a" /opt/homebrew)
-group=$(stat -c "%G" /opt/homebrew)
-if [ "$perm" -ne 775 ]; then chmod -R 775 /opt/homebrew; fi
+perm=$(ls -ld /opt/homebrew | awk '{print $1}')
+group=$(ls -ld /opt/homebrew | awk '{print $4}')
+if [ "$perm" != "drwxrwxr-x" ]; then chmod -R 775 /opt/homebrew; fi
 if [ "$group" != "admin" ]; then chown -R :admin /opt/homebrew; fi
 
 
