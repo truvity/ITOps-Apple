@@ -1,5 +1,5 @@
 #!/bin/zsh
-{
+
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
 # 
@@ -10,7 +10,7 @@ function Slack_notification() {
   local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
   curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
   sleep 1
-  curl --http1.1 --verbose -F file=@/tmp/detail_log.txt \
+  curl -F file=@/tmp/detail_log.txt \
        -F "initial_comment=${text_slack}" \
        -F channels=${channel} \
        -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
@@ -33,6 +33,7 @@ if [ "$group" != "admin" ]; then chown -R :admin /opt/homebrew; fi
 
 
 if ! command -v brew >/dev/null 2>&1; then
+	{
 	if [ -f "$Brew_file" ]; then
 		#brew install option 1
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
@@ -55,6 +56,7 @@ if ! command -v brew >/dev/null 2>&1; then
   		export message="payload={\"attachments\":[{\"text\":\"brew install option 2\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
+	} > /tmp/detail_log.txt 2>&1
 	# Check install
  	source /etc/zprofile
 	if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
@@ -68,4 +70,3 @@ if ! command -v brew >/dev/null 2>&1; then
 	fi
 
 fi
-} > /tmp/detail_log.txt 2>&1
