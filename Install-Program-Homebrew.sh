@@ -13,7 +13,7 @@ function Slack_notification() {
 ######
   local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
   curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
-  
+  sleep 1
   curl -F file=@/tmp/detail_log.txt \
        -F "initial_comment=${text_slack}" \
        -F channels=${channel} \
