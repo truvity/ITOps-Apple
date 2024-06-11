@@ -14,8 +14,7 @@ function Slack_notification() {
   local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
   curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
   sleep 1
-  curl -F file=@/tmp/detail_log.txt \
-       -F "initial_comment=${text_slack}" \
+  curl -F file=@/tmp/detail_program_log.txt \
        -F channels=${channel} \
        -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
        https://slack.com/api/files.upload
@@ -32,7 +31,7 @@ install_programs_gui() {
 			cd /tmp/
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
-			}  > /tmp/detail_log.txt 2>&1
+			}  > /tmp/detail_program_log.txt 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
@@ -58,7 +57,7 @@ install_programs_cli() {
 			cd /tmp/
             echo "Installing $program_name..."
             brew install "$program_name" --force
-			}  > /tmp/detail_log.txt 2>&1
+			}  > detail_program_log.txt 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
