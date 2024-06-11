@@ -1,5 +1,5 @@
 #!/bin/zsh
-{
+
 set -x
 
 source /etc/zprofile
@@ -28,9 +28,11 @@ install_programs_gui() {
 
     for program_name in "${programs_gui[@]}"; do
         if ! brew list --cask "$program_name" &>/dev/null; then
+			{
 			cd /tmp/
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
+			}  > /tmp/detail_log.txt 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
@@ -52,9 +54,11 @@ install_programs_cli() {
 
     for program_name in "${programs_cli[@]}"; do
         if ! brew list "$program_name" &>/dev/null; then
+			{
 			cd /tmp/
             echo "Installing $program_name..."
             brew install "$program_name" --force
+			}  > /tmp/detail_log.txt 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
@@ -119,4 +123,3 @@ fi
 
 
 set +x
-}  > /tmp/detail_log.txt 2>&1
