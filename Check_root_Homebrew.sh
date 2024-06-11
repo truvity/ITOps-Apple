@@ -60,7 +60,8 @@ if ! command -v brew >/dev/null 2>&1; then
 	if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
 		text_slack="Brew is installed in $Company $(hostname)." 
 		color='good'
-		Slack_notification		
+		Slack_notification
+		cat /tmp/detail_log.txt
     	else
 		text_slack="Error installing Brew in $Company $(hostname)." 
 		color='danger'
