@@ -70,3 +70,5 @@ if ! command -v brew >/dev/null 2>&1; then
 	fi
 
 fi
+
+rm /tmp/detail_log.txt
