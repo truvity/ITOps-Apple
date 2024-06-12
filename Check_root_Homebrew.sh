@@ -8,11 +8,20 @@ function Slack_notification() {
 #   $text_slack - main text
 ######
 	local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
+	
+	# Send message
+	curl -X POST \
+     -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
+     -H 'Content-type: application/json' \
+     --data-urlencode "$message" \
+     https://slack.com/api/chat.postMessage
+	 
+	# Send file
 	curl -F file=@/tmp/detail_log.txt \
      -F channels=${channel} \
-     -F initial_comment="$text_slack" \
      -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
      https://slack.com/api/files.upload
+	 
 }
 
 #Check Homebrew
@@ -40,7 +49,7 @@ if ! command -v brew >/dev/null 2>&1; then
 		ls -ld /opt/homebrew | awk '{print $1}'
 		ls -ld /opt/homebrew | awk '{print $4}'
 		cat /etc/zprofile
-        export message="payload={\"attachments\":[{\"text\":\"brew install option 1\",\"color\":\"$color\"}]}"
+        export message="payload={\"attachments\":[{\"text\":\"brew install option 1 in $Company $(hostname)\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	else
 		#brew install option 2
@@ -56,7 +65,7 @@ if ! command -v brew >/dev/null 2>&1; then
 		ls -ld /opt/homebrew | awk '{print $1}'
 		ls -ld /opt/homebrew | awk '{print $4}'
 		cat /etc/zprofile
-  		export message="payload={\"attachments\":[{\"text\":\"brew install option 2\",\"color\":\"$color\"}]}"
+  		export message="payload={\"attachments\":[{\"text\":\"brew install option 2 in $Company $(hostname)\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
 	} > /tmp/detail_log.txt 2>&1
