@@ -7,15 +7,13 @@ function Slack_notification() {
 #   color = good; warning; danger
 #   $text_slack - main text
 ######
-  local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
-  #curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
-  curl -F file=@/tmp/detail_log.txt \
-       -F channels=${channel} \
-	   -F "$message" \
-       -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
-       https://slack.com/api/files.upload
+	local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
+	curl -F file=@/tmp/detail_log.txt \
+     -F channels=${channel} \
+     -F initial_comment="$text_slack" \
+     -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
+     https://slack.com/api/files.upload
 }
-
 
 #Check Homebrew
 source /etc/zprofile
