@@ -112,6 +112,7 @@ fi
 
 #check Company and group and install program
 
+#Truvity
 if [ "$Company" = "Truvity" ]; then
 
 	if [ "$Group" = "All" ]; then
@@ -142,7 +143,7 @@ if [ "$Company" = "Truvity" ]; then
 	
 fi
 
-
+#Finerbase
 if [ "$Company" = "Finerbase" ]; then
 
 	if [ "$Group" = "All" ]; then
@@ -173,6 +174,7 @@ if [ "$Company" = "Finerbase" ]; then
 	
 fi
 
+#Datagrid
 if [ "$Company" = "Datagrid" ]; then
 
 	if [ "$Group" = "All" ]; then

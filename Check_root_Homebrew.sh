@@ -48,7 +48,8 @@ if ! xcode-select -p &>/dev/null; then
     	else
 		text_slack="Error installing Xcode-select in $Company $(hostname)." 
 		color='danger'
-		Slack_notification	
+		Slack_notification
+	fi
 fi
 
 
