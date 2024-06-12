@@ -21,7 +21,7 @@ function Slack_notification() {
 	curl -X POST \
      -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
      -H 'Content-type: application/json' \
-     --data-urlencode "$message" \
+     --data "$message" \
      https://slack.com/api/chat.postMessage
 	 
 	# Send file
