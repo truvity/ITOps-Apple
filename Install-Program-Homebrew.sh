@@ -3,6 +3,11 @@
 set -x
 
 source /etc/zprofile
+
+#File log
+filelog="/tmp/detail_program_log.txt"
+
+
 # Function Slack notification
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
@@ -11,13 +16,29 @@ function Slack_notification() {
 #   color = good; warning; danger
 #   $text_slack - main text
 ######
-  local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
-  curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
-  sleep 1
-  curl -F file=@/tmp/detail_program_log.txt \
-       -F channels=${channel} \
-       -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
-       https://slack.com/api/files.upload
+	local message="{
+		\"channel\": \"${channel}\",
+		\"attachments\": [
+		{
+		\"text\": \"$text_slack\",
+		\"color\": \"$color\"
+		}
+	]
+	}"
+	
+	# Send message
+	curl -X POST \
+     -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
+     -H 'Content-type: application/json' \
+     --data "$message" \
+     https://slack.com/api/chat.postMessage
+	 
+	# Send file
+	curl -F file=@${filelog} \
+     -F channels=${channel} \
+     -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
+     https://slack.com/api/files.upload
+	 
 }
 
 
@@ -31,7 +52,7 @@ install_programs_gui() {
 			cd /tmp/
             echo "Installing $program_name..."
             brew install --cask "$program_name" --force
-			}  > /tmp/detail_program_log.txt 2>&1
+			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
@@ -57,7 +78,7 @@ install_programs_cli() {
 			cd /tmp/
             echo "Installing $program_name..."
             brew install "$program_name" --force
-			}  > detail_program_log.txt 2>&1
+			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
 					color='danger'
@@ -106,6 +127,7 @@ if [ "$Company" = "Truvity" ]; then
 		)
 		#Install Programs gui
 		install_programs_gui "${programs_gui[@]}"
+		
 		
 		# List of programs-cli to install via Homebrew
 		programs_cli=(
