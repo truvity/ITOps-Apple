@@ -7,7 +7,15 @@ function Slack_notification() {
 #   color = good; warning; danger
 #   $text_slack - main text
 ######
-	local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
+	local message="{
+		\"channel\": \"${channel}\",
+		\"attachments\": [
+		{
+		\"text\": \"$text_slack\",
+		\"color\": \"$color\"
+		}
+	]
+	}"
 	
 	# Send message
 	curl -X POST \
