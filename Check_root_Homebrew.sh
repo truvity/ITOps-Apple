@@ -8,10 +8,10 @@ function Slack_notification() {
 #   $text_slack - main text
 ######
   local message="payload={\"attachments\":[{\"text\":\"$text_slack\",\"color\":\"$color\"}]}"
-  curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
-  sleep 1
+  #curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
   curl -F file=@/tmp/detail_log.txt \
        -F channels=${channel} \
+	   -F "$message" \
        -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
        https://slack.com/api/files.upload
 }
@@ -39,6 +39,9 @@ if ! command -v brew >/dev/null 2>&1; then
   		source /etc/zprofile
     	chown -R :admin /opt/homebrew
 		chmod -R 775 /opt/homebrew
+		ls -ld /opt/homebrew | awk '{print $1}'
+		ls -ld /opt/homebrew | awk '{print $4}'
+		cat /etc/zprofile
         export message="payload={\"attachments\":[{\"text\":\"brew install option 1\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	else
@@ -52,6 +55,9 @@ if ! command -v brew >/dev/null 2>&1; then
 		chmod -R 775 /opt/homebrew
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
   		source /etc/zprofile
+		ls -ld /opt/homebrew | awk '{print $1}'
+		ls -ld /opt/homebrew | awk '{print $4}'
+		cat /etc/zprofile
   		export message="payload={\"attachments\":[{\"text\":\"brew install option 2\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
