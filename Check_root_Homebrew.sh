@@ -33,7 +33,25 @@ function Slack_notification() {
      -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
      https://slack.com/api/files.upload
 	 
+	 sleep 1
 }
+
+# Check if xcode-select
+if ! xcode-select -p &>/dev/null; then
+	{
+    xcode-select --install
+	} > ${filelog} 2>&1
+	if xcode-select -p &>/dev/null; then
+		text_slack="Xcode-select is installed in $Company $(hostname)." 
+		color='good'
+		Slack_notification
+    	else
+		text_slack="Error installing Xcode-select in $Company $(hostname)." 
+		color='danger'
+		Slack_notification	
+fi
+
+
 
 #Check Homebrew
 source /etc/zprofile
@@ -80,6 +98,7 @@ if ! command -v brew >/dev/null 2>&1; then
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
 	} > ${filelog} 2>&1
+	
 	# Check install
  	source /etc/zprofile
 	if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
