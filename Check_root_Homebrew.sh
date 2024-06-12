@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+#File log
+filelog="/tmp/detail_log.txt"
+
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
 # 
@@ -25,7 +28,7 @@ function Slack_notification() {
      https://slack.com/api/chat.postMessage
 	 
 	# Send file
-	curl -F file=@/tmp/detail_log.txt \
+	curl -F file=@${filelog} \
      -F channels=${channel} \
      -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
      https://slack.com/api/files.upload
@@ -76,7 +79,7 @@ if ! command -v brew >/dev/null 2>&1; then
   		export message="payload={\"attachments\":[{\"text\":\"brew install option 2 in $Company $(hostname)\",\"color\":\"$color\"}]}"
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	fi
-	} > /tmp/detail_log.txt 2>&1
+	} > ${filelog} 2>&1
 	# Check install
  	source /etc/zprofile
 	if [ -f "$Brew_file" ] && command -v brew >/dev/null 2>&1; then
