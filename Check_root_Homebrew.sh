@@ -1,5 +1,5 @@
 #!/bin/zsh
-{
+
 #File log
 filelog="/tmp/detail_log.txt"
 
@@ -27,6 +27,8 @@ function Slack_notification() {
      --data "$message" \
      https://slack.com/api/chat.postMessage
 	 
+	 sleep 1
+	 
 	# Send file
 	curl -F file=@${filelog} \
      -F channels=${channel} \
@@ -38,16 +40,14 @@ function Slack_notification() {
 set -x
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
-#	{
+	{
     xcode-select --install
-	xcode-select -p
-	xcode-select --install
 	sleep 15
 	softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-
 	local name_program_xcode=$(softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-)
 	echo $name_program_xcode
 	softwareupdate -i "$name_program_xcode"
-#	} > ${filelog} 2>&1
+	} > ${filelog} 2>&1
 	if xcode-select -p &>/dev/null; then
 		text_slack="Xcode-select is installed in $Company $(hostname)." 
 		color='good'
@@ -120,9 +120,3 @@ if ! command -v brew >/dev/null 2>&1; then
 	fi
 
 fi
-} > /tmp/detail2_log.txt 2>&1
-
-curl -F file=@/tmp/detail2_log.txt \
-     -F channels=${channel} \
-     -H "Authorization: Bearer ${SLACK_API_TOKEN}" \
-     https://slack.com/api/files.upload
