@@ -40,6 +40,8 @@ set -x
 if ! xcode-select -p &>/dev/null; then
 #	{
     xcode-select --install
+	xcode-select -p
+	xcode-select --install
 	sleep 15
 	softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-
 	local name_program_xcode=$(softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-)
