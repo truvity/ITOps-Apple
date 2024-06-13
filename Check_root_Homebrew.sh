@@ -35,7 +35,7 @@ function Slack_notification() {
 	 
 	 sleep 1
 }
-
+set -x
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
 	{
@@ -55,7 +55,7 @@ if ! xcode-select -p &>/dev/null; then
 	fi
 fi
 
-
+set +x
 
 #Check Homebrew
 source /etc/zprofile
