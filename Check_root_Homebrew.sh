@@ -38,13 +38,14 @@ function Slack_notification() {
 set -x
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
-	{
+#	{
     xcode-select --install
 	sleep 15
+	softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-
 	local name_program_xcode=$(softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-)
 	echo $name_program_xcode
 	softwareupdate -i "$name_program_xcode"
-	} > ${filelog} 2>&1
+#	} > ${filelog} 2>&1
 	if xcode-select -p &>/dev/null; then
 		text_slack="Xcode-select is installed in $Company $(hostname)." 
 		color='good'
