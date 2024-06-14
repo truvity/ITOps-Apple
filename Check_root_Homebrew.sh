@@ -41,7 +41,7 @@ set -x
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
 	{
-	xcode-select -p
+	xcode-select -r
     xcode-select --install
 	xcode-select --install
 	sleep 15
