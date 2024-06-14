@@ -102,6 +102,31 @@ Company=$Company
 Group=$Group
 
 
+set -x
+# Check if xcode-select
+if ! xcode-select -p &>/dev/null; then
+	{
+	xcode-select --install
+	xcode-select --install
+	sleep 15
+	softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-
+	local name_program_xcode=$(softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-)
+	echo $name_program_xcode
+	softwareupdate -i "$name_program_xcode"
+	} > ${filelog} 2>&1
+	if xcode-select -p &>/dev/null; then
+		text_slack="Xcode-select is installed in $Company $(hostname)." 
+		color='good'
+		Slack_notification
+    	else
+		text_slack="Error installing Xcode-select in $Company $(hostname)." 
+		color='danger'
+		Slack_notification
+	fi
+fi
+
+set +x
+
 #check brew
 if ! command -v brew &>/dev/null; then
     source /etc/zprofile
