@@ -22,6 +22,6 @@ cd /tmp/
 curl -sL https://github.com/truvity/ITOps-Apple/archive/refs/heads/${tree_github}.zip |  tar xz
 chmod -R a+x  ITOps-Apple-${tree_github}/
 cd ITOps-Apple-${tree_github}
-/bin/sh Install-Program-Homebrew.sh
+/bin/zsh Install-Program-Homebrew.sh
 sleep 20
 rm -rf /tmp/ITOps-Apple-${tree_github}
