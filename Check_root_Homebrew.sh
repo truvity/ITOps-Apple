@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+set -x
 #File log
 filelog="/tmp/detail_log.txt"
 
@@ -36,7 +37,7 @@ function Slack_notification() {
 	 
 	 sleep 1
 }
-set -x
+
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
 	{
@@ -55,10 +56,10 @@ if ! xcode-select -p &>/dev/null; then
 		text_slack="Error installing Xcode-select in $Company $(hostname)." 
 		color='danger'
 		Slack_notification
+		exit 0
 	fi
 fi
 
-set +x
 
 #Check Homebrew
 source /etc/zprofile
@@ -119,3 +120,5 @@ if ! command -v brew >/dev/null 2>&1; then
 	fi
 
 fi
+
+set +x
