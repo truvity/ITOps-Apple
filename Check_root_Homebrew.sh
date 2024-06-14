@@ -41,9 +41,8 @@ set -x
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
 	{
-	xcode-select -r
     xcode-select --install
-	xcode-select --install
+	touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 	sleep 15
 	softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-
 	local name_program_xcode=$(softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-)
