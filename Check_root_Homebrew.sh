@@ -67,6 +67,7 @@ cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 #Check NOPASSWD for sudo
 sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/\*/\* \*, /usr/sbin/installer -pkg /opt/homebrew/\*, /bin/launchctl list \*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/*/* *, /usr/sbin/installer -pkg /opt/homebrew/*, /bin/launchctl list *' | sudo tee -a /etc/sudoers > /dev/null
+sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /usr/sbin/installer -pkg /usr/local/Caskroom/\*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /usr/sbin/installer -pkg /usr/local/Caskroom/*' | sudo tee -a /etc/sudoers > /dev/null
 
 #check ownership and permissions
 perm=$(ls -ld /opt/homebrew | awk '{print $1}')
