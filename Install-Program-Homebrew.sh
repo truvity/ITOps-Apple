@@ -1,5 +1,13 @@
 #!/bin/zsh
 
+#check processor_type
+processor_type=$(uname -p)
+
+
+if [ "$processor_type" = "i386" ] || [ "$processor_type" = "x86_64" ]; then
+    exit 0;
+fi
+
 set -x
 
 source /etc/zprofile
@@ -52,7 +60,7 @@ install_programs_gui() {
 			{
 			cd /tmp/
             echo "Installing $program_name..."
-            brew install --cask "$program_name" --force
+            brew install --cask "$program_name" --force --debug
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
@@ -78,7 +86,7 @@ install_programs_cli() {
 			{
 			cd /tmp/
             echo "Installing $program_name..."
-            brew install "$program_name" --force
+            brew install "$program_name" --force --debug
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
@@ -127,6 +135,7 @@ if [ "$Company" = "Truvity" ]; then
 			zoom
 			google-drive
 			anydesk
+			whatsapp
 		# Add other programs here
 		)
 		#Install Programs gui
@@ -158,6 +167,7 @@ if [ "$Company" = "Finerbase" ]; then
 			zoom
 			google-drive
 			anydesk
+			whatsapp
 		# Add other programs here
 		)
 		#Install Programs gui
@@ -173,6 +183,15 @@ if [ "$Company" = "Finerbase" ]; then
 		install_programs_cli "${programs_cli[@]}"
 	fi	
 	
+	if [ "$Group" = "Microsoft_Office" ]; then
+	# List of programs-gui to install via Homebrew
+		programs_gui=(
+			microsoft-office-businesspro
+		# Add other programs here
+		)
+		#Install Programs gui
+		install_programs_gui "${programs_gui[@]}"
+	fi
 fi
 
 #Datagrid
