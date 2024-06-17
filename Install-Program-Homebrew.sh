@@ -1,5 +1,13 @@
 #!/bin/zsh
 
+#check processor_type
+processor_type=$(uname -p)
+
+
+if [ "$processor_type" = "i386" ] || [ "$processor_type" = "x86_64" ]; then
+    exit 0;
+fi
+
 set -x
 
 source /etc/zprofile
