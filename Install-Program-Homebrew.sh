@@ -173,7 +173,7 @@ if [ "$Company" = "Finerbase" ]; then
 		install_programs_cli "${programs_cli[@]}"
 	fi	
 	
-	if [ "$Group" = "Microsoft_Ofiice" ]; then
+	if [ "$Group" = "Microsoft_Office" ]; then
 	# List of programs-gui to install via Homebrew
 		programs_gui=(
 			microsoft-office-businesspro
