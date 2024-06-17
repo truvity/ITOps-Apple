@@ -84,6 +84,10 @@ perm=$(ls -ld /opt/homebrew | awk '{print $1}')
 group=$(ls -ld /opt/homebrew | awk '{print $4}')
 if [ "$perm" != "drwxrwxr-x" ]; then chmod -R 775 /opt/homebrew; fi
 if [ "$group" != "admin" ]; then chown -R :admin /opt/homebrew; fi
+perm=$(ls -ld /usr/local/share/man | awk '{print $1}')
+group=$(ls -ld /usr/local/share/man | awk '{print $4}')
+if [ "$perm" != "drwxrwxr-x" ]; then chmod -R 775 /usr/local/share/man; fi
+if [ "$group" != "admin" ]; then chown -R :admin /usr/local/share/man; fi
 
 
 if ! command -v brew >/dev/null 2>&1; then
