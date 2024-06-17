@@ -52,7 +52,7 @@ install_programs_gui() {
 			{
 			cd /tmp/
             echo "Installing $program_name..."
-            brew install --cask "$program_name" --force
+            brew install --cask "$program_name" --force --debug
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
@@ -78,7 +78,7 @@ install_programs_cli() {
 			{
 			cd /tmp/
             echo "Installing $program_name..."
-            brew install "$program_name" --force
+            brew install "$program_name" --force --debug
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew installing $program_name in $Company $(hostname)."
@@ -127,6 +127,7 @@ if [ "$Company" = "Truvity" ]; then
 			zoom
 			google-drive
 			anydesk
+			whatsapp
 		# Add other programs here
 		)
 		#Install Programs gui
@@ -158,6 +159,7 @@ if [ "$Company" = "Finerbase" ]; then
 			zoom
 			google-drive
 			anydesk
+			whatsapp
 		# Add other programs here
 		)
 		#Install Programs gui
