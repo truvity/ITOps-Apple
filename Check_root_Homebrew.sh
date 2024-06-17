@@ -1,5 +1,13 @@
 #!/bin/zsh
 
+#check processor_type
+processor_type=$(uname -p)
+
+
+if [ "$processor_type" = "i386" ] || [ "$processor_type" = "x86_64" ]; then
+    exit 0;
+fi
+
 set -x
 #File log
 filelog="/tmp/detail_log.txt"
@@ -41,6 +49,7 @@ function Slack_notification() {
 # Check if xcode-select
 if ! xcode-select -p &>/dev/null; then
 	{
+	uname -a
     xcode-select --install
 	touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 	softwareupdate -l | grep "Command Line Tools" | awk NR==1 | cut -d ' ' -f 3-
@@ -65,6 +74,7 @@ fi
 source /etc/zprofile
 cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
+
 #Check NOPASSWD for sudo
 sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/\*/\* \*, /usr/sbin/installer -pkg /opt/homebrew/\*, /bin/launchctl list \*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/*/* *, /usr/sbin/installer -pkg /opt/homebrew/*, /bin/launchctl list *' | sudo tee -a /etc/sudoers > /dev/null
 sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /usr/sbin/installer -pkg /usr/local/Caskroom/\*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /usr/sbin/installer -pkg /usr/local/Caskroom/*' | sudo tee -a /etc/sudoers > /dev/null
@@ -80,6 +90,7 @@ if ! command -v brew >/dev/null 2>&1; then
 	{
 	if [ -f "$Brew_file" ]; then
 		#brew install option 1
+		uname -a
 		grep -q 'eval "\$(/opt/homebrew/bin/brew shellenv)"' /etc/zprofile || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | sudo tee -a /etc/zprofile > /dev/null
   		source /etc/zprofile
     	chown -R :admin /opt/homebrew
@@ -91,6 +102,7 @@ if ! command -v brew >/dev/null 2>&1; then
 		curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
 	else
 		#brew install option 2
+		uname -a
 	    json=$(curl -s https://api.github.com/repos/Homebrew/brew/releases/latest)
 		download_url=$(echo "$json" | grep -o '"browser_download_url": "[^"]*"' | head -1 | cut -d '"' -f 4)
   		rm Homebrew-latest.pkg
