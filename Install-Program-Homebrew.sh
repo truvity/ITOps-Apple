@@ -143,12 +143,12 @@ if [ "$Company" = "Truvity" ]; then
 		
 		
 		# List of programs-cli to install via Homebrew
-		programs_cli=(
-			speedtest-cli
+		#programs_cli=(
+		#	speedtest-cli
 		# Add other programs here
-		)
+		#)
 		#Install Programs cli
-		install_programs_cli "${programs_cli[@]}"
+		#install_programs_cli "${programs_cli[@]}"
 	fi	
 	
 fi
