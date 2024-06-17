@@ -41,6 +41,7 @@ function Slack_notification() {
 }
 
 {
+uname -a
 mdfind "kMDItemContentType == 'com.apple.application-bundle'"
 }  > ${filelog} 2>&1
 
