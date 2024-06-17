@@ -173,6 +173,15 @@ if [ "$Company" = "Finerbase" ]; then
 		install_programs_cli "${programs_cli[@]}"
 	fi	
 	
+	if [ "$Group" = "Microsoft_Ofiice" ]; then
+	# List of programs-gui to install via Homebrew
+		programs_gui=(
+			microsoft-office-businesspro
+		# Add other programs here
+		)
+		#Install Programs gui
+		install_programs_gui "${programs_gui[@]}"
+	fi
 fi
 
 #Datagrid
