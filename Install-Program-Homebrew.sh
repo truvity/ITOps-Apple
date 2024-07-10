@@ -97,6 +97,22 @@ install_programs_cli() {
 					color='good'
 					Slack_notification
 				fi
+		elif [ $(date +%u) -eq 3 ] && [ $(date +%H) -lt 20 ]; then
+			{
+			cd /tmp/
+            echo "Update $program_name..."
+			brew update
+            brew upgrade "$program_name" --debug
+			}  > ${filelog} 2>&1
+				if [ $? -gt 0 ]; then 
+					text_slack="Error of brew updating $program_name in $Company $(hostname)."
+					color='danger'
+					Slack_notification
+				else
+					text_slack="Successfully updated $program_name in $Company $(hostname)."
+					color='good'
+					Slack_notification
+				fi
         else
             echo "$program_name is already installed."
         fi
