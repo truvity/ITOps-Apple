@@ -12,6 +12,7 @@ set -x
 #File log
 filelog="/tmp/detail_log.txt"
 
+# function_Slack
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
 # 
@@ -67,6 +68,57 @@ if ! xcode-select -p &>/dev/null; then
 		Slack_notification
 		exit 0
 	fi
+fi
+
+
+#Check Homebrew-technical-user
+
+USERNAME_NEW="brewuser"
+
+# Check if the user already exists
+#dscl . -read /Users/${USERNAME_NEW} &> /dev/null
+id ${USERNAME_NEW}
+if [ $? -ne 0 ]; then
+
+    # Generate a password
+    PASSWORD=$(openssl rand -base64 20)
+
+    # Find a free UID, starting from 1000
+    START_UID=9985
+    function uid_exists() {
+        if id "$1" >/dev/null 2>&1; then
+            return 0
+        else
+            return 1
+        fi
+    }
+
+    UID_NEW=$START_UID
+    while uid_exists "$UID_NEW"; do
+        UID_NEW=$((UID_NEW + 1))
+    done
+
+    # Create home directory
+    sudo mkdir -p /usr/local/${USERNAME_NEW}
+
+    # Create the user
+    sudo dscl . -create /Users/${USERNAME_NEW}
+    sudo dscl . -create /Users/${USERNAME_NEW} UserShell /bin/zsh
+    sudo dscl . -create /Users/${USERNAME_NEW} RealName "$USERNAME_NEW"
+    sudo dscl . -create /Users/${USERNAME_NEW} UniqueID "$UID_NEW"
+    sudo dscl . -create /Users/${USERNAME_NEW} PrimaryGroupID 80
+    sudo dscl . -create /Users/${USERNAME_NEW} NFSHomeDirectory /usr/local/${USERNAME_NEW}
+    sudo dscl . -passwd /Users/${USERNAME_NEW} "?1Ag$PASSWORD"
+    sudo dscl . -append /Groups/admin GroupMembership ${USERNAME_NEW}
+    sudo dscl . -append /Groups/staff GroupMembership ${USERNAME_NEW}
+
+    # Update permissions for the home directory
+    sudo chown -R ${USERNAME_NEW}:staff /usr/local/${USERNAME_NEW}
+
+    # Output user information and password
+    export message="payload={\"attachments\":[{\"text\":\"brewuser created in $Company $(hostname)\",\"color\":\"$color\"}]}"
+	curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
+
 fi
 
 
