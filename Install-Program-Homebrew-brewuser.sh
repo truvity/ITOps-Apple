@@ -8,9 +8,8 @@ if [ "$processor_type" = "i386" ] || [ "$processor_type" = "x86_64" ]; then
     exit 0;
 fi
 
-sudo chmod -R 775 /opt/homebrew; fi
-sudo chown -R :admin /opt/homebrew; fi
-#login to brewuser
+sudo chmod -R 775 /opt/homebrew
+sudo chown -R :admin /opt/homebrew
 
 set -x
 
