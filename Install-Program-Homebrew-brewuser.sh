@@ -22,6 +22,8 @@ sudo git config --global --add safe.directory /opt/homebrew/Library/Taps/homebre
 #File log
 filelog="/tmp/detail_program_log.txt"
 
+sudo rm ${filelog}
+
 
 # Function Slack notification
 function Slack_notification() {
