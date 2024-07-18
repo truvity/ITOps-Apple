@@ -79,12 +79,12 @@ USERNAME_NEW="brewuser"
 #dscl . -read /Users/${USERNAME_NEW} &> /dev/null
 id ${USERNAME_NEW}
 if [ $? -ne 0 ]; then
-
+	{
     # Generate a password
     PASSWORD=$(openssl rand -base64 20)
 
     # Find a free UID, starting from 1000
-    START_UID=9985
+    START_UID=1000
     function uid_exists() {
         if id "$1" >/dev/null 2>&1; then
             return 0
@@ -106,21 +106,22 @@ if [ $? -ne 0 ]; then
     sudo dscl . -create /Users/${USERNAME_NEW} UserShell /bin/zsh
     sudo dscl . -create /Users/${USERNAME_NEW} RealName "$USERNAME_NEW"
     sudo dscl . -create /Users/${USERNAME_NEW} UniqueID "$UID_NEW"
-    sudo dscl . -create /Users/${USERNAME_NEW} PrimaryGroupID 80
+    sudo dscl . -create /Users/${USERNAME_NEW} PrimaryGroupID 0
     sudo dscl . -create /Users/${USERNAME_NEW} NFSHomeDirectory /usr/local/${USERNAME_NEW}
     sudo dscl . -passwd /Users/${USERNAME_NEW} "?1Ag$PASSWORD"
     sudo dscl . -append /Groups/admin GroupMembership ${USERNAME_NEW}
     sudo dscl . -append /Groups/staff GroupMembership ${USERNAME_NEW}
 
     # Update permissions for the home directory
-    sudo chown -R ${USERNAME_NEW}:staff /usr/local/${USERNAME_NEW}
-
-    # Output user information and password
-    export message="payload={\"attachments\":[{\"text\":\"brewuser created in $Company $(hostname)\",\"color\":\"$color\"}]}"
-	curl -X POST --data-urlencode "$message" ${SLACK_WEBHOOK_URL}
+    sudo chown -R ${USERNAME_NEW}:wheel /usr/local/${USERNAME_NEW}
+	} > ${filelog} 2>&1
+    # Slack Notification
+	text_slack="Brewuser is created in $Company $(hostname)." 
+	Slack_notification
 
 fi
-
+PASSWORD=$(openssl rand -base64 20)
+sudo dscl . -passwd /Users/${USERNAME_NEW} "?1Ag$PASSWORD"
 
 #Check Homebrew
 source /etc/zprofile
@@ -128,8 +129,7 @@ cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
 #Check NOPASSWD for sudo
-sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/\*/\* \*, /usr/sbin/installer -pkg /opt/homebrew/\*, /bin/launchctl list \*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /opt/homebrew/*/* *, /usr/sbin/installer -pkg /opt/homebrew/*, /bin/launchctl list *' | sudo tee -a /etc/sudoers > /dev/null
-sudo grep -q '%admin ALL=(ALL) NOPASSWD:SETENV: /usr/sbin/installer -pkg /usr/local/Caskroom/\*' /etc/sudoers || echo '%admin ALL=(ALL) NOPASSWD:SETENV: /usr/sbin/installer -pkg /usr/local/Caskroom/*' | sudo tee -a /etc/sudoers > /dev/null
+sudo grep -q 'brewuser ALL=(ALL) NOPASSWD:ALL' /etc/sudoers || echo 'brewuser ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers > /dev/null
 
 #check ownership and permissions
 perm=$(ls -ld /opt/homebrew | awk '{print $1}')
