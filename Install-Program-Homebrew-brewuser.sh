@@ -25,6 +25,7 @@ filelog="/tmp/detail_program_log.txt"
 sudo rm ${filelog}
 
 
+echo "Programs to install2: ${programs_gui[@]}"
 # Function Slack notification
 function Slack_notification() {
 # Send notification messages to a Slack channel by using Slack webhook
