@@ -107,4 +107,6 @@ if [ "$Company" = "Datagrid" ]; then
 	
 fi
 
+echo "Programs to install: ${programs_gui[@]}"
+
 set +x
