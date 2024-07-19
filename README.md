@@ -3,6 +3,6 @@
 
 Autoinstall program for Apple Users
 
-- Installing Homebrew for root account (Check_root_Homebrew.sh)
-- Installing programs using homebrew (Install-Program-Homebrew.sh)
+- Installing Homebrew and create brewuser for root account (Check_root_Homebrew.sh)
+- Installing programs using homebrew (Install-Program-Homebrew-brewuser.sh)
 - Scripts for Intune (Start-Scripts for Intune)
