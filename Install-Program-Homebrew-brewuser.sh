@@ -80,7 +80,7 @@ install_programs_gui() {
 					color='good'
 					Slack_notification
 				fi
-		elif [ $(date +%u) -eq 3 ] && [ $(date +%H) -lt 21 ]; then
+		elif [ $(date +%u) -eq 5 ] && [ $(date +%H) -lt 21 ]; then
 			{
 			cd /tmp/
             echo "Update $program_name..."
@@ -90,10 +90,6 @@ install_programs_gui() {
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
 					color='danger'
-					Slack_notification
-				else
-					text_slack="Successfully updated $program_name in $Company $(hostname)."
-					color='good'
 					Slack_notification
 				fi
         else
@@ -122,7 +118,7 @@ install_programs_cli() {
 					color='good'
 					Slack_notification
 				fi
-		elif [ $(date +%u) -eq 3 ] && [ $(date +%H) -lt 21 ]; then
+		elif [ $(date +%u) -eq 5 ] && [ $(date +%H) -lt 21 ]; then
 			{
 			cd /tmp/
             echo "Update $program_name..."
@@ -133,10 +129,6 @@ install_programs_cli() {
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
 					color='danger'
 					Slack_notification
-				else
-					text_slack="Successfully updated $program_name in $Company $(hostname)."
-					color='good'
-					Slack_notification
 				fi
         else
             echo "$program_name is already installed."
@@ -144,11 +136,6 @@ install_programs_cli() {
     done
 }
 
-#Set name Company
-Company=$Company
-
-#Set group
-Group=$Group
 
 
 
@@ -163,109 +150,20 @@ fi
 #check Company and group and install program
 cd /tmp/
 brew update
-
-#Truvity
-if [ "$Company" = "Truvity" ]; then
-
-	if [ "$Group" = "All" ]; then
-	
-		# List of programs-gui to install via Homebrew
-		programs_gui=(
-			google-chrome
-			slack
-			1password
-			telegram-desktop
-			zoom
-			google-drive
-			anydesk
-			whatsapp
-		# Add other programs here
-		)
-		#Install Programs gui
-		install_programs_gui "${programs_gui[@]}"
-		
-		
-		# List of programs-cli to install via Homebrew
-		#programs_cli=(
-		#	speedtest-cli
-		# Add other programs here
-		#)
-		#Install Programs cli
-		#install_programs_cli "${programs_cli[@]}"
-	fi	
-	
+# Check if programs_gui array is empty
+if [ ${#programs_gui[@]} -eq 0 ]; then
+  echo "No GUI programs to install."
+else
+  install_programs_gui "${programs_gui[@]}"
 fi
 
-#Finerbase
-if [ "$Company" = "Finerbase" ]; then
-
-	if [ "$Group" = "All" ]; then
-	
-		# List of programs-gui to install via Homebrew
-		programs_gui=(
-			google-chrome
-			slack
-			1password
-			telegram-desktop
-			zoom
-			google-drive
-			anydesk
-			whatsapp
-		# Add other programs here
-		)
-		#Install Programs gui
-		install_programs_gui "${programs_gui[@]}"
-		
-		
-		# List of programs-cli to install via Homebrew
-		programs_cli=(
-			speedtest-cli
-		# Add other programs here
-		)
-		#Install Programs cli
-		install_programs_cli "${programs_cli[@]}"
-	fi	
-	
-	if [ "$Group" = "Microsoft_Office" ]; then
-	# List of programs-gui to install via Homebrew
-		programs_gui=(
-			microsoft-office-businesspro
-		# Add other programs here
-		)
-		#Install Programs gui
-		install_programs_gui "${programs_gui[@]}"
-	fi
+# Check if programs_cli array is empty
+if [ ${#programs_cli[@]} -eq 0 ]; then
+  echo "No CLI programs to install."
+else
+  install_programs_cli "${programs_cli[@]}"
 fi
 
-#Datagrid
-if [ "$Company" = "Datagrid" ]; then
 
-	if [ "$Group" = "All" ]; then
-	
-		# List of programs-gui to install via Homebrew
-		programs_gui=(
-			google-chrome
-			slack
-			1password
-			telegram-desktop
-			zoom
-			google-drive
-			anydesk
-		# Add other programs here
-		)
-		#Install Programs gui
-		install_programs_gui "${programs_gui[@]}"
-		
-		
-		# List of programs-cli to install via Homebrew
-		programs_cli=(
-			speedtest-cli
-		# Add other programs here
-		)
-		#Install Programs cli
-		install_programs_cli "${programs_cli[@]}"
-	fi	
-	
-fi
 
 set +x

@@ -76,7 +76,7 @@ fi
 USERNAME_NEW="brewuser"
 
 # Check if the user already exists
-#dscl . -read /Users/${USERNAME_NEW} &> /dev/null
+
 id ${USERNAME_NEW}
 if [ $? -ne 0 ]; then
 	{
@@ -106,14 +106,15 @@ if [ $? -ne 0 ]; then
     sudo dscl . -create /Users/${USERNAME_NEW} UserShell /bin/zsh
     sudo dscl . -create /Users/${USERNAME_NEW} RealName "$USERNAME_NEW"
     sudo dscl . -create /Users/${USERNAME_NEW} UniqueID "$UID_NEW"
-    sudo dscl . -create /Users/${USERNAME_NEW} PrimaryGroupID 0
+    sudo dscl . -create /Users/${USERNAME_NEW} PrimaryGroupID 80
     sudo dscl . -create /Users/${USERNAME_NEW} NFSHomeDirectory /usr/local/${USERNAME_NEW}
     sudo dscl . -passwd /Users/${USERNAME_NEW} "?1Ag$PASSWORD"
     sudo dscl . -append /Groups/admin GroupMembership ${USERNAME_NEW}
     sudo dscl . -append /Groups/staff GroupMembership ${USERNAME_NEW}
+	sudo dscl . -append /Groups/wheel GroupMembership ${USERNAME_NEW}
 
     # Update permissions for the home directory
-    sudo chown -R ${USERNAME_NEW}:wheel /usr/local/${USERNAME_NEW}
+    sudo chown -R ${USERNAME_NEW}:admin /usr/local/${USERNAME_NEW}
 	} > ${filelog} 2>&1
     # Slack Notification
 	text_slack="Brewuser is created in $Company $(hostname)." 
