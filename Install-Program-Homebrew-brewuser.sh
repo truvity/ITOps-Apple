@@ -81,7 +81,7 @@ install_programs_gui() {
 					color='good'
 					Slack_notification
 				fi
-		elif [ $(date +%u) -eq 5 ] && [ $(date +%H) -lt 21 ]; then
+		elif [ $(date +%u) -eq 2 ] && [ -z "$(pmset -g assertions | grep -i 'display is on')" ]; then
 			{
 			cd /tmp/
             echo "Update $program_name..."
@@ -119,7 +119,7 @@ install_programs_cli() {
 					color='good'
 					Slack_notification
 				fi
-		elif [ $(date +%u) -eq 5 ] && [ $(date +%H) -lt 21 ]; then
+		elif [ $(date +%u) -eq 2 ] && [ -z "$(pmset -g assertions | grep -i 'display is on')" ]; then
 			{
 			cd /tmp/
             echo "Update $program_name..."
