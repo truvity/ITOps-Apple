@@ -1,10 +1,8 @@
 #!/bin/zsh
 
 #Change company
-export Company="Finerbase"
+export Company="Truvity"
 
-#Change group
-export Group="All"
 
 #Change webhook
 export SLACK_WEBHOOK_URL=""
@@ -22,6 +20,6 @@ cd /tmp/
 curl -sL https://github.com/truvity/ITOps-Apple/archive/refs/heads/${tree_github}.zip |  tar xz
 chmod -R a+x  ITOps-Apple-${tree_github}/
 cd ITOps-Apple-${tree_github}
-/bin/zsh Install-Program-Homebrew.sh
-sleep 20
+/bin/zsh Check_root_Homebrew.sh
+sleep 5
 rm -rf /tmp/ITOps-Apple-${tree_github}
