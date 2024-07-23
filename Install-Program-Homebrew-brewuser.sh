@@ -86,7 +86,7 @@ install_programs_gui() {
 			cd /tmp/
             echo "Update $program_name..."
 			brew update
-            brew upgrade --cask "$program_name" --debug
+            brew upgrade --cask "$program_name" --debug --force
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
@@ -124,7 +124,7 @@ install_programs_cli() {
 			cd /tmp/
             echo "Update $program_name..."
 			brew update
-            brew upgrade "$program_name" --debug
+            brew upgrade "$program_name" --debug --force
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
