@@ -130,7 +130,12 @@ cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
 #Check NOPASSWD for sudo
-sudo grep -q 'brewuser ALL=(ALL) ALL' /etc/sudoers || echo 'brewuser ALL=(ALL) ALL' | sudo tee -a /etc/sudoers > /dev/null
+# Remove existing rules for brewuser
+sudo sed -i '' '/brewuser ALL=(ALL) NOPASSWD:ALL/d' /etc/sudoers
+sudo sed -i '' '/brewuser ALL=(ALL) ALL/d' /etc/sudoers
+
+# Add the new rule
+sudo grep -q 'brewuser ALL=(ALL) NOPASSWD:EXEC:SETENV:ALL' /etc/sudoers || echo 'brewuser ALL=(ALL) NOPASSWD:EXEC:SETENV:ALL' | sudo tee -a /etc/sudoers > /dev/null
 
 
 #check ownership and permissions
