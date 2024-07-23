@@ -130,7 +130,8 @@ cd /tmp/
 Brew_file="/opt/homebrew/bin/brew"
 
 #Check NOPASSWD for sudo
-sudo grep -q 'brewuser ALL=(ALL) NOPASSWD:ALL' /etc/sudoers || echo 'brewuser ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers > /dev/null
+sudo grep -q 'brewuser ALL=(ALL) ALL' /etc/sudoers || echo 'brewuser ALL=(ALL) ALL' | sudo tee -a /etc/sudoers > /dev/null
+
 
 #check ownership and permissions
 perm=$(ls -ld /opt/homebrew | awk '{print $1}')
