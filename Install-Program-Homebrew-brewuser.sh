@@ -92,6 +92,10 @@ install_programs_gui() {
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
 					color='danger'
 					Slack_notification
+     				else
+					text_slack="Successfully updated $program_name in $Company $(hostname)."
+					color='good'
+					Slack_notification
 				fi
         else
             echo "$program_name is already installed."
