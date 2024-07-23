@@ -87,7 +87,7 @@ install_programs_gui() {
             		echo "Update $program_name..."
 			brew update
    			alias launchctl='sudo /bin/launchctl'
-            		brew upgrade --cask "$program_name" --debug --force
+            		brew upgrade --cask "$program_name" --debug --verbose
 	      		unalias launchctl
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
