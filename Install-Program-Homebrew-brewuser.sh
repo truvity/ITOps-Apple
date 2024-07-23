@@ -84,13 +84,19 @@ install_programs_gui() {
 		elif [ $(date +%u) -ge 2 ] && [ $(date +%u) -le 4 ] && [ -n "$(pmset -g assertions | grep -i 'display is on')" ]; then
 			{
 			cd /tmp/
-            echo "Update $program_name..."
+            		echo "Update $program_name..."
 			brew update
-            brew upgrade --cask "$program_name" --debug
+   			alias launchctl='sudo /bin/launchctl'
+            		brew upgrade --cask "$program_name" --debug --verbose
+	      		unalias launchctl
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
 					color='danger'
+					Slack_notification
+     				else
+					text_slack="Successfully updated $program_name in $Company $(hostname)."
+					color='good'
 					Slack_notification
 				fi
         else
@@ -124,7 +130,7 @@ install_programs_cli() {
 			cd /tmp/
             echo "Update $program_name..."
 			brew update
-            brew upgrade "$program_name" --debug
+            brew upgrade "$program_name" --debug --force
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
