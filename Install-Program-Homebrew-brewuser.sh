@@ -134,7 +134,7 @@ install_programs_cli() {
 					text_slack="Error of brew updating $program_name in $Company $(hostname)."
 					color='danger'
 					Slack_notification
-				elif ! grep -q "the latest version is already installed" "${filelog}"; then
+				elif ! grep -q "already installed" "${filelog}"; then
 					text_slack="Successfully updated $program_name in $Company $(hostname)."
 					color='good'
 					Slack_notification
