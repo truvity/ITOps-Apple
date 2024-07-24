@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-sudo -u brewuser -i << 'EOF'
+su - brewuser  << 'EOF'
 #Change company
 export Company="Truvity"
 
