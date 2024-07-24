@@ -33,6 +33,7 @@ if [ "$Company" = "Truvity" ]; then
 			applite
 			iterm2
 			microsoft-remote-desktop
+			vlc
 		# Add other programs here
 		)
 		
@@ -65,6 +66,7 @@ if [ "$Company" = "Finerbase" ]; then
 			applite
 			iterm2
 			microsoft-remote-desktop
+			vlc
 		# Add other programs here
 		)
 		
@@ -103,6 +105,7 @@ if [ "$Company" = "Datagrid" ]; then
 			applite
 			iterm2
 			microsoft-remote-desktop
+			vlc
 		# Add other programs here
 		)
 		
