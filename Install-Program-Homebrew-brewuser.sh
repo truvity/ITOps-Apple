@@ -70,9 +70,6 @@ install_programs_gui() {
 			{
 			cd /tmp/
             echo "Installing $program_name..."
-			/usr/bin/env() {
-				sudo /usr/bin/env "$@"
-			}
             brew install --cask "$program_name" --force --debug
 			}  > ${filelog} 2>&1
 				if [ $? -gt 0 ]; then 
