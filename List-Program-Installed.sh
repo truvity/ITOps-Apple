@@ -45,6 +45,7 @@ uname -a
 system_profiler SPHardwareDataType | grep "Serial Number (system)"
 dscl . list /Users | grep -v '^_'
 mdfind "kMDItemContentType == 'com.apple.application-bundle'" | grep -v "^/System/"
+curl ipinfo.io
 speedtest-cli
 }  > ${filelog} 2>&1
 
