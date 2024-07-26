@@ -30,6 +30,9 @@ if [ "$Company" = "Truvity" ]; then
 			google-drive
 			anydesk
 			whatsapp
+			iterm2
+			microsoft-remote-desktop
+			vlc
 		# Add other programs here
 		)
 		
@@ -59,6 +62,9 @@ if [ "$Company" = "Finerbase" ]; then
 			google-drive
 			anydesk
 			whatsapp
+			iterm2
+			microsoft-remote-desktop
+			vlc
 		# Add other programs here
 		)
 		
@@ -94,6 +100,9 @@ if [ "$Company" = "Datagrid" ]; then
 			zoom
 			google-drive
 			anydesk
+			iterm2
+			microsoft-remote-desktop
+			vlc
 		# Add other programs here
 		)
 		

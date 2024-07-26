@@ -42,7 +42,10 @@ function Slack_notification() {
 
 {
 uname -a
-mdfind "kMDItemContentType == 'com.apple.application-bundle'"
+system_profiler SPHardwareDataType | grep "Serial Number (system)"
+dscl . list /Users | grep -v '^_'
+mdfind "kMDItemContentType == 'com.apple.application-bundle'" | grep -v "^/System/"
+speedtest-cli
 }  > ${filelog} 2>&1
 
 set +x
